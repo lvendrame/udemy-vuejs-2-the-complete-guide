@@ -1,0 +1,13 @@
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+<div id="exercise">
+    <p>VueJS is pretty cool - {{name}} ({{age}})</p>
+    <p>{{age*3}}</p>
+    <p>{{Math.random()}}</p>
+    <div>
+        <img v-bind:src="image" style="width:100px;height:100px">
+    </div>
+    <div>
+        <input type="text" v-bind:value="name">
+    </div>
+</div>
