@@ -12,30 +12,30 @@
                 this.gameIsRunning = true;
                 this.playerHealth = 100;
                 this.monsterHealth = 100;
+                this.turns = [];
             },
             attack: function () {
-                var damage = this.calculateDamage(3, 10);
-                this.monsterHealth -= damage;
-                if(this.verifyMonsterDeath()) return;
-                this.turns.unshift({
-                    isPlayer: true,
-                    text: 'Monster hits Player for ' + damage
-                });
-
-                this.monsterAttacks();
+                this.generalAttack(3, 10, 'Player hits Monster for');
             },
             specialAttack: function () {
-                this.monsterHealth -= this.calculateDamage(10, 20);
+                this.generalAttack(10, 20, 'Player hits Monster hard for');
+            },
+            generalAttack: function (min, max, message){
+                var damage = this.calculateDamage(min, max);
+                this.monsterHealth -= damage;
                 if(this.verifyMonsterDeath()) return;
-                
-                this.monsterAttacks();                
+
+                this.addTurnInformation(true, damage, message);
+
+                this.monsterAttacks();
             },
             heal: function () {
                 if(this.playerHealth <= 90){
                     this.playerHealth += 10;
                 }else{
                     this.playerHealth = 100;
-                }
+                }                
+                this.addTurnInformation(true, 10, 'Player heals for');
 
                 this.monsterAttacks();
             },
@@ -47,9 +47,12 @@
                 this.playerHealth -= damage;
                 this.verifyPlayerDeath();
 
+                this.addTurnInformation(false, damage, 'Monster hits Player for');
+            },
+            addTurnInformation(isPlayer, damage, message){
                 this.turns.unshift({
-                    isPlayer: false,
-                    text: 'Monster hits Player for ' + damage
+                    isPlayer: isPlayer,
+                    text: [message, damage].join(' ')
                 });
             },
             calculateDamage : function(min, max){
