@@ -2,13 +2,14 @@
     <div class="col-xs-12 col-sm-6">
         <ul class="list-group">            
             <server-item v-for="server in servers" :key="server.id"
-             :id="server.id"></server-item>
+             :server="server"></server-item>
         </ul>
     </div>
 </template>
 
 <script>
     import ServerItem from './ServerItem.vue';
+    import EventBus from '../../eventBus';  
 
     export default {
         data: function() {
@@ -24,6 +25,12 @@
         },
         components: {
             'server-item': ServerItem
+        },
+        created(){
+            var self = this;
+            EventBus.$on('changeServerStatus', function(server){
+                self.servers.find(s => s.id === server.id).status = server.status;
+            });
         }
     };
 </script>
