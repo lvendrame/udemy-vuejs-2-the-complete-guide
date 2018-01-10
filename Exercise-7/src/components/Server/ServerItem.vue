@@ -1,7 +1,8 @@
 <template>
     <li
-        class="list-group-item">
-        <a href="javascript:void(0)" @click="select();" >Server #{{ server.id }}</a> - {{ server.status }}
+        class="list-group-item" style="cursor:pointer;"
+        @click="select();">
+        Server #{{ server.id }}
     </li>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
     <div class="col-xs-12 col-sm-6">
-        <p v-if="server===null">Server Details are currently not updated</p>
-        <div v-if="server!==null">
+        <p v-if="!server">Please, select a server</p>
+        <div v-else>
             <p>Server #{{server.id}}</p>
             <p>Status: {{server.status}}</p>
             <button @click="changeStatus();">Change Status</button>
