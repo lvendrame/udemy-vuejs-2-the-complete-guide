@@ -13,8 +13,12 @@
                         <input type="password" name="password" id="password" class="form-control" v-model="user.password">
                     </div>
                     <div class="form-group">
-                        <input type="checkbox" name="store" id="store" class="form-check-input" v-model="storeInDataBase">
-                        <label for="store" class="form-check-label">Store in Database?</label>
+                        <label>
+                            <input type="radio" value="Yes" v-model="storeData"> Yes
+                        </label>
+                        <label>
+                            <input type="radio" value="No" v-model="storeData"> No
+                        </label>
                     </div>
                     <button type="submit" class="btn btn-primary" @click.prevent="isSubmitted=true">Submit</button>
                 </div>
@@ -31,7 +35,7 @@
                         <p>Full Name: {{user.name}}</p>
                         <p>Mail: {{user.mail}}</p>
                         <p>Password: {{user.password}}</p>
-                        <p>Store in Database?: {{storeInDataBase}}</p>
+                        <p>Store in Database?: {{storeData}}</p>
                     </div>
                 </div>
             </div>
@@ -50,7 +54,7 @@
                     mail: '',
                     password: '',
                 },
-                storeInDataBase: false,
+                storeData: 'No',
                 isSubmitted: false
             };
         },
