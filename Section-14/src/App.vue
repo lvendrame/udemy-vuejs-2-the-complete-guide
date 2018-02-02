@@ -44,19 +44,46 @@
                     >
                     <div style="width:300px;height:100px;background-color:lightgreen;" v-if="load"></div>
                 </transition>
+                <hr>
+                <button class="btn btn-primary"
+                    @click="selectedComponent = selectedComponent === 'success-alert' ? 'danger-alert' : 'success-alert'">
+                        Toggle components
+                    </button>
+                <br><br>
+                <transition name="fade" mode="out-in">
+                    <component :is="selectedComponent"></component>                
+                </transition>
+                <hr>
+                <button class="btn btn-primary" @click="addItem">Add item</button>
+                <br><br>
+                <ul class="list-group">
+                    <transition-group name="slide">                    
+                        <li class="list-group-item"
+                            v-for="(number, index) in numbers"
+                            :key="number"                            
+                            @click="removeItem(index)"
+                            style="cursor:pointer">{{number}}</li>
+                    </transition-group>
+                </ul>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import dangerAlert from './DangerAlert.vue'
+    import successAlert from './SuccessAlert.vue'
+    
+
     export default {
         data() {
             return {
                 show: false,
                 load: true,
                 alertAnimation: 'fade',
-                elementWidth: 100
+                elementWidth: 100,
+                selectedComponent: 'success-alert',
+                numbers: [1, 2, 3, 4, 5, 6, 7, 8]
             }
         },
         methods:{
@@ -105,7 +132,22 @@
             },
             leaveCancelled(el){
                 console.log('leaveCancelled');
+            },
+            addItem(){
+                const pos = Math.floor(Math.random() * this.numbers.length);
+                let num = Math.floor(Math.random()*50);
+                while(!!this.numbers.find((i) => i === num)){
+                    num = Math.floor(Math.random()*99);
+                }
+                this.numbers.splice(pos, 0, num);
+            },
+            removeItem(index){
+                this.numbers.splice(index, 1);
             }
+        },
+        components: {
+            dangerAlert,
+            successAlert
         }
     }
 </script>
@@ -135,10 +177,16 @@
     }
     .slide-leave{
     }
+
     .slide-leave-active{
         animation: slide-out 1s ease-out forwards;
         transition: opacity 1s;
         opacity: 0;
+        position: absolute;
+    }
+
+    .slide-move{        
+        transition: transform 1s;
     }
 
     @keyframes slide-in {
