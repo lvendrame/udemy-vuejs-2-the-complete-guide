@@ -4,7 +4,10 @@
             <h3 class="panel-title text-center">{{ question }}</h3>
         </div>
         <div class="panel-body">
-            <div class="col-xs-12 col-sm-6 text-center">
+            <div class="col-xs-12 col-sm-6 text-center" v-for="item in btnData" :key="item">
+                <button class="btn btn-primary btn-lg" style="margin: 10px" @click="onAnswer(item.correct)">{{ item.answer }}</button>
+            </div>
+            <!-- <div class="col-xs-12 col-sm-6 text-center">
                 <button class="btn btn-primary btn-lg" style="margin: 10px" @click="onAnswer(btnData[0].correct)">{{ btnData[0].answer }}</button>
             </div>
             <div class="col-xs-12 col-sm-6 text-center">
@@ -15,7 +18,7 @@
             </div>
             <div class="col-xs-12 col-sm-6 text-center">
                 <button class="btn btn-primary btn-lg" style="margin: 10px" @click="onAnswer(btnData[3].correct)">{{ btnData[3].answer }}</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -59,14 +62,10 @@
                         this.question = 'Oops, an Error occurred :/';
                 }
 
-                this.btnData[0].answer = this.generateRandomNumber(correctAnswer - 10, correctAnswer + 10, correctAnswer);
-                this.btnData[0].correct = false;
-                this.btnData[1].answer = this.generateRandomNumber(correctAnswer - 10, correctAnswer + 10, correctAnswer);
-                this.btnData[1].correct = false;
-                this.btnData[2].answer = this.generateRandomNumber(correctAnswer - 10, correctAnswer + 10, correctAnswer);
-                this.btnData[2].correct = false;
-                this.btnData[3].answer = this.generateRandomNumber(correctAnswer - 10, correctAnswer + 10, correctAnswer);
-                this.btnData[3].correct = false;
+                this.btnData.forEach(el => {
+                    el.answer = this.generateRandomNumber(correctAnswer - 10, correctAnswer + 10, correctAnswer);
+                    el.correct = false;
+                });
 
                 const correctButton = this.generateRandomNumber(0, 3);
                 this.btnData[correctButton].correct = true;
